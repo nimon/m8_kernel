@@ -35,6 +35,9 @@
 
 #define DRIVER_NAME "HL"
 
+bool disable_cover = 0;
+module_param(disable_cover, bool, 0644);
+
 struct ak_hall_data {
 	struct input_dev *input_dev;
 	uint32_t gpio_att:16;
@@ -234,7 +237,10 @@ static void report_cover_event(int pole, int irq, struct ak_hall_data *hl)
 {
 	uint8_t val_n = 0, val_s = 0;
 
-	if(pole == 0) // N-pole
+	if (disable_cover)
+		return;
+
+	if(pole == 0) 
 	{
 		val_n = gpio_get_value(hl->gpio_att);
 		irq_set_irq_type(irq, val_n?IRQF_TRIGGER_LOW|IRQF_ONESHOT : IRQF_TRIGGER_HIGH|IRQF_ONESHOT);
