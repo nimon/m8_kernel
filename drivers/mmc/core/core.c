@@ -2050,7 +2050,7 @@ int mmc_resume_bus(struct mmc_host *host)
 	if (!mmc_bus_needs_resume(host))
 		return -EINVAL;
 
-	printk("%s: Starting deferred resume\n", mmc_hostname(host));
+	pr_debug("%s: Starting deferred resume\n", mmc_hostname(host));
 	if (!pm_runtime_suspended(&host->class_dev) || mmc_is_sd_host(host))
 		need_manual_resume = 1;
 	mmc_rpm_hold(host, &host->card->dev);
@@ -2085,7 +2085,7 @@ int mmc_resume_bus(struct mmc_host *host)
 	}
 
 	mmc_bus_put(host);
-	printk("%s: Deferred resume completed\n", mmc_hostname(host));
+	pr_debug("%s: Deferred resume completed\n", mmc_hostname(host));
 	return 0;
 	#endif
 }
