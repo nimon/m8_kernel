@@ -1815,10 +1815,9 @@ long do_mount(char *dev_name, char *dir_name, char *type_page,
 	if (retval)
 		goto dput_out;
 
-	
-	if (!(flags & MS_NOATIME))
-		mnt_flags |= MNT_RELATIME;
-
+	/* Default to NOATIME and NODIRATIME */
+	mnt_flags |= MNT_NOATIME;
+	mnt_flags |= MNT_NODIRATIME;
 	
 	if (flags & MS_NOSUID)
 		mnt_flags |= MNT_NOSUID;
